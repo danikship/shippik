@@ -1,0 +1,21 @@
+def final_state_of_doors(numdoors):
+
+    doors = [False] * numdoors
+
+    for i in range(1, numdoors+1):
+
+        for j in range(i, numdoors+1, i):
+
+            doors[j-1] = not doors[j-1]
+
+    final_doors = []
+
+    for i in range(numdoors):
+
+        if doors[i]:
+
+            final_doors.append(i+1)
+
+    return final_doors
+
+print(final_state_of_doors(100))
