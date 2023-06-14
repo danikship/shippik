@@ -1,0 +1,39 @@
+from itertools import permutations, product
+
+# Функция permutations() модуля itertools возвращает итератор с последовательными перестановками из элементов входной последовательности iterable
+
+def solve24(nums):
+
+    ops = ['+', '-', '*', '/'] # Операторы, которые мы можем использовать
+
+    for a, b, c, d in permutations(nums): # Генерируем все возможные перестановки цифр
+
+        for op1, op2, op3 in product(ops, repeat=3): # Генерируем все возможные комбинации операторов
+
+            # Строим четыре различных выражения с разными порядками операций
+
+            expr1 = f'({a} {op1} {b}) {op2} ({c} {op3} {d})'
+
+            expr2 = f'(({a} {op1} {b}) {op2} {c}) {op3} {d}'
+
+            expr3 = f'{a} {op1} ({b} {op2} ({c} {op3} {d}))'
+
+            expr4 = f'{a} {op1} (({b} {op2} {c}) {op3} {d})'
+
+            for expr in [expr1, expr2, expr3, expr4]: # Проверяем каждое выражение
+
+                try:
+
+                    if abs(eval(expr) - 24) < 1e-6: # Если результат равен 24
+
+                        return expr # Возвращаем выражение
+
+                except ZeroDivisionError: # Игнорируем ошибки деления на ноль
+
+                    pass
+
+    return 'No solution' # Если ни одно из выражений не дает результата 24
+
+nums = input('Enter four digits: ') # Получаем строку из четырех цифр, введенных пользователем с клавиатуры
+
+print(solve24(nums)) # Передаем эту строку в функцию solve24 и выводим результат
